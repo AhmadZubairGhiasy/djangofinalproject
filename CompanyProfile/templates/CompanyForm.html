@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %}create Company{% endblock %}
+
+{% block content %}
+
+
+
+<section class="w-full min-h-[100vh] flex items-center justify-center p-8">
+    <style>
+        form input[type=file]{
+            display: none;
+        }
+        form label[for="img"]{
+            padding: 8px;
+            background-color: #0066ff;
+            color: white;
+            border-radius: 8px;
+            text-align: center;
+            width: 140px;
+        }
+        form label[for="img"]:hover{
+             background-color: #0043a8;
+        }
+    </style>
+    <form action="#" method="post" id="userform" enctype="multipart/form-data" class=" flex flex-col max-w-[400px] min-w-[250px] gap-[16px] [&>p]:flex [&>p]:flex-col [&>p>label]:opacity-[0.7] [&>p>label]:capitalize [&>p>input]:h-[40px]  [&>p>input]:border-b-[2px] [&>p>input]:border-gray-500 [&>p>input]:px-2 [&>p>input]:outline-none [&>p>textarea]:border-b-[2px] [&>p>textarea]:border-gray-500 [&>p>textarea]:px-2 [&>p>textarea]:outline-none ">
+    {% csrf_token %}
+
+       {% if request.path == '/company:setcover/' %}
+
+                <img src="/company:getcover/?id={{company.id}}" id="preview" alt="" class="w-[300px] h-[150px] object-cover mb-4"/>
+           
+        {% endif %}
+
+        {% if request.path == '/company:setlogo/' %}
+
+                <img src="/company:getlogo/?id={{company.id}}" id="preview" alt="" class="w-[200px] h-[200px] object-cover rounded-full mb-4"/>
+           
+        {% endif %}
+        
+     
+
+     {{ form.media }}
+    {{form.as_p}}
+    <button class="bg-blue-600 px-4 py-2 text-white rounded-lg hover:bg-blue-500 ">
+        
+       
+        {% if request.path == '/company:create/' %} Create Company  {% endif %}
+        {% if request.path == '/company:setlogo/' %} Set Company Logo  {% endif %}
+        {% if request.path == '/company:setcover/' %} Set Company Cover  {% endif %}
+            
+        
+        </button>
+</form>
+
+
+<script>
+  document.getElementById("img").onchange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    //id="current" id="select" 
+
+    if (file.type.startsWith("application/pdf")) {
+        document.getElementById("current").classList.add("hidden");
+        let select = document.getElementById("select")
+        select.classList.remove("hidden");
+
+        select.innerHTML = `Select Resume: <a href="${URL.createObjectURL(file)}" class="text-blue-600 underline" target="_blank">View Resume</a>`;
+    }
+
+    const url = URL.createObjectURL(file);
+    document.getElementById("preview").src = url;
+    document.getElementById("preview").style.display = "block";
+  };
+</script>
+
+
+</section>
+
+
+{% endblock %}

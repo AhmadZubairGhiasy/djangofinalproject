@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Peoples{% endblock %}
+
+{% block content %}
+
+<div class="w-full flex justify-center">
+    <form action="/user:all/?s=1" method="post">
+    {% csrf_token %}
+    <input name="requestuser" type="search" class="h-[40px] w-[300px] p-2 rounded-xl border-2 outline-none" placeholder="Search User">
+    <button class="bg-blue-600 hover:bg-blue-500 text-white rounded-xl h-[40px] w-[40px]">
+        <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
+</form>
+</div>
+<br>
+
+<div class="users w-full flex gap-[40px] p-8 flex-wrap">
+    
+{% for user in users %}
+            <a href="/user:user/?id={{user.id}}">
+                
+            <div class="bg-white w-[300px] h-[200px] rounded-xl border-2 flex flex-col items-center" gap-[16px] p-2 ">
+                <img src="/user:photo/?id={{user.id}}" alt="user photo" class="w-[100px] h-[100px] object-cover rounded-full relative  bottom-[24px]">
+                <h2 class="text-xl font-[600]">{{user.full_name}}</h2>
+                <h2 class="capitalize text-xl" >{{user.job_industry}}</h2>
+                <h2 class="opacity-[0.7]" >{{user.email}}</h2>
+
+            </div>
+            </a>
+{% endfor %}
+</div>
+    
+
+
+
+
+{% endblock %}

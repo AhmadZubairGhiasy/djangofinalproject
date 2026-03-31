@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<section class="w-full h-[100vh] flex justify-center items-center ">
+    
+    <style>
+        input[type=file]{
+            display: none;
+        }
+        label[for=img], label[for=id_resume_pdf]{
+            background-color: #0051ff;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            width: fit-content;
+        }
+        label[for=img]:hover,label[for=id_resume_pdf]:hover{
+            background-color: #003cff;
+            text-decoration: underline;
+        }
+    </style>
+<form action="#" method="post" id="userform" class=" w-[300px] flex flex-col max-w-[400px] min-w-[250px] gap-[16px] [&>p>input]:h-[40px] [&>p>input]:border-b-[2px] [&>p>input]:border-b-gray-500  [&>p>input]:px-2 [&>p]:flex [&>p]:flex-col [&>p>label]:opacity-[0.7]" enctype="multipart/form-data">
+    {% csrf_token %}
+   
+        
+        {% if request.path == '/user:setphoto/' %}
+
+                <img src="/user:photo/?id={{user.id}}" id="preview" alt="" class="w-[200px] h-[200px] object-cover rounded-full mb-4"/>
+           
+        {% endif %}
+          {% if request.path == '/user:setcoverphoto/' %}
+
+                <img src="/user:coverphoto/?id={{user.id}}" id="preview" alt="" class="w-[300px] h-[150px] object-cover mb-4"/>
+           
+        {% endif %}
+            
+        {% if request.path == '/user:setresume/' %}
+                <div class="flex flex-col justify-center items-center gap-[24px]">
+                    <i class="fa-solid fa-file fa-5x text-gray-700"></i>
+                <p id="current" class="text-center mb-4">Current Resume: <a href="/user:resume/?id={{user.id}}" class="text-blue-600 underline">View Resume</a></p>
+                <p id="select" class="text-center mb-4 hidden">Select Resume: <a href="/user:resume/?id={{user.id}}" class="text-blue-600 underline">View Resume</a></p>
+
+                </div>
+
+        {% endif %}
+            
+   
+    {{ form.media }}
+
+    {{form.as_p}}
+    <button class="bg-blue-600 px-4 py-2 text-white capitalize rounded-lg hover:bg-blue-500">
+        {{request.resolver_match.app_name}}
+        {% if request.path == '/user:login/' %}
+            
+            Login
+        {% endif %}
+          {% if request.path == '/user:register/' %}
+            
+            Register
+        {% endif %}
+         {% if request.path == '/user:setphoto/' %}
+            
+            Set Photo
+        {% endif %}
+
+        {% if request.path == '/user:setcoverphoto/' %}
+            
+            Set cover Photo
+        {% endif %}
+          {% if request.path == '/user:setresume/' %}
+            
+            Set Resume
+        {% endif %}
+            
+    </button>
+    
+  
+   
+
+<script>
+  document.getElementById("img").onchange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    //id="current" id="select" 
+
+    if (file.type.startsWith("application/pdf")) {
+        document.getElementById("current").classList.add("hidden");
+        let select = document.getElementById("select")
+        select.classList.remove("hidden");
+
+        select.innerHTML = `Select Resume: <a href="${URL.createObjectURL(file)}" class="text-blue-600 underline" target="_blank">View Resume</a>`;
+    }
+
+    const url = URL.createObjectURL(file);
+    document.getElementById("preview").src = url;
+    document.getElementById("preview").style.display = "block";
+  };
+</script>
+
+
+</form>
+  
+
+</section>
+
+
+{% endblock %}

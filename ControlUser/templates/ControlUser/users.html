@@ -1,0 +1,542 @@
+{% extends 'base.html' %}
+
+{% block title %}User Profile{% endblock %}
+
+{% block content %}
+
+    
+    {% if form %}
+        <section class="inset-0 absolute z-[2000] bg-black/50 flex items-start justify-center py-4" style="backdrop-filter: blur(5px);">
+            <button onclick="closeform()" class="absolute right-[20px] bg-white p-2 rounded-xl capitalize hover:bg-gray-100">close</button>
+
+            <form action="#" method="post" id="userform" 
+            class="flex flex-col w-[600px]
+             gap-[16px] [&>p>input]:h-[40px] 
+             [&>p>input]:border-b-[2px] 
+             [&>p>input]:border-b-gray-500 [&>p>select]:border-b-[2px] 
+             [&>p>select]:border-b-gray-500  [&>p>input]:px-2 [&>p>input]:w-full [&>p>input]:outline-none [&>p]:flex [&>p]:flex-col [&>p>label]:opacity-[0.7] [&>p>label]:capitalize bg-white p-2 rounded-xl" enctype="multipart/form-data">
+                {% csrf_token %}
+                 {% if form.name.errors %}
+                    <div class="text-red-500">
+                {{ form.name.errors }}
+                    </div>
+                {% endif %}
+                {{ form.media }}
+                {{form.as_p}}
+            <button class="bg-blue-600 px-4 py-2 text-white rounded-lg hover:bg-blue-500 capitalize">save </button>
+            </form>
+        </section>
+    {% endif %}
+
+
+
+<section class="w-full flex items-start gap-[8px]  ">
+
+    
+
+
+    <div class="w-[400px] h-full bg-white rounded-xl p-4 flex flex-col gap-[24px] border-2">
+
+
+        <div class="w-fullflex flex-col items-center gap-[20px]  ">
+            <div class="relative mb-12">
+                <a href="/user:setcoverphoto/" class="object-cover">
+             <div class="w-full h-[110px] object-cover  overflow-hidden   border-gray-300 hover:border-blue-600">
+            <img class="w-full h-full object-cover object-center" src="/user:coverphoto/?id={{user.id}}" alt="">
+            </div>
+           
+           </a>
+           <a href="/user:setphoto/" class="absolute left-[50%] translate-x-[-50%] bottom-[-45px]">
+             <div class="w-[90px] h-[90px]  overflow-hidden rounded-[50%] border-4 border-white hover:border-blue-600">
+            <img class="w-full h-full object-cover object-center" src="/user:photo/?id={{user.id}}" alt="">
+            </div>
+           
+           </a>
+            </div>
+
+         <div class="flex flex-col items-center">
+            <h2 class="text-2xl font-bold">{{user.full_name}}</h2>
+            <h2 class="opacity-[0.7]">{{user.Phone}}</h2>
+            <h2 class="opacity-[0.7]">{{user.email}}</h2>
+         </div>
+
+        </div>
+    
+        <div class="flex flex-col">
+            <button onclick="edititems('userInfo','{{user.id}}')" class="w-full bg-blue-600 hover:bg-blue-500 p-3 rounded-xl text-white flex justify-center font-bold">Edit Profile</button>
+            
+
+        </div>
+
+        <div class="[&>p>span]:opacity-[0.7] flex flex-col gap-[16px]">
+            <h3 class="text-xl font-[500] w-full flex justify-between">Details   </h3>
+
+
+            <p class="capitalize"><span>Full Name </span><br> {{user.full_name}}</p>
+            
+            
+            <p><span>Email </span><br> {{user.email}}</p>
+            
+             <p class="capitalize"><span>Phone </span><br> {{user.Phone}}
+                
+            </p>
+            
+            <p class="capitalize"><span >Working Industry </span><br> {{user.job_industry}}
+            
+              
+            </p>
+
+
+            <p class="capitalize"><span>Nationality </span><br> {{user.nationality}}
+               
+            </p>
+
+
+            <p><span>Birth Date </span><br> {{user.date_birth}}
+           
+            </p>
+
+
+            <p class="capitalize"><span>Gender </span><br> {{user.gender}}
+                 
+            </p>
+
+            <p><span>Join Date </span><br> {{user.create_At}}
+    
+            </p>
+
+                {% if user.resume_pdf %}
+                <a href="/user:resume/?id={{user.id}}" class="bg-blue-600 rounded-xl h-[40px]  text-white capitalize flex items-center justify-center hover:bg-blue-500">
+                <span>view resume</span>
+                </a>
+             {% endif %}
+
+             <a href="/user:setresume/" class="bg-green-600 rounded-xl h-[40px]  text-white capitalize flex items-center justify-center hover:bg-green-500">
+                <span>set resume</span>
+                </a>
+            </a>
+            <a href="/user:logout" class="bg-gray-300 rounded-xl h-[40px] capitalize flex items-center justify-center hover:bg-gray-400">
+                <span>logout</span>
+            </a>
+        </div>
+
+    
+
+   
+       
+    </div>
+
+
+
+
+        
+    <div  class="w-full h-full  flex flex-col gap-[8px] ">
+
+            
+
+            <div class="w-full  text-gray-600 bg-white rounded-xl border-2 flex flex-wrap gap-[12px] items-center p-3 [&>div]:w-[200px]">
+
+              
+                
+                {% if not user.about  %}
+                    <button onclick="additem('userAbout')" class="flex items-center gap-[16px] border-2 p-2 rounded-xl hover:bg-gray-100 ">
+                        <i class="fa-solid fa-circle-plus fa-2x text-blue-600 "></i>
+                        <p>Add Your Summary</p>
+                    </button>
+                {% endif %}
+
+            
+
+                {% if not skills  %}
+                    <button onclick="additem('userSkill')" class="flex items-center gap-[16px] border-2 p-2 rounded-xl hover:bg-gray-100 ">
+                        <i class="fa-solid fa-circle-plus fa-2x text-blue-600 "></i>
+                        <p>Add Skill</p>
+                    </button>
+                {% endif %}
+
+
+                  {% if not edus  %}
+                    <button onclick="additem('userEdu')" class="flex items-center gap-[16px] border-2 p-2 rounded-xl hover:bg-gray-100 ">
+                        <i class="fa-solid fa-circle-plus fa-2x text-blue-600 "></i>
+                        <p>Add Education</p>
+                    </button>
+                {% endif %}
+
+
+
+                  {% if not exps  %}
+                    <button onclick="additem('userExp')" class="flex items-center gap-[16px] border-2 p-2 rounded-xl hover:bg-gray-100 ">
+                        <i class="fa-solid fa-circle-plus fa-2x text-blue-600 "></i>
+                        <p>Add Experiance</p>
+                    </button>
+                {% endif %}
+
+
+                  {% if not certs  %}
+                    <button onclick="additem('userCert')" class="flex items-center gap-[16px] border-2 p-2 rounded-xl hover:bg-gray-100 ">
+                        <i class="fa-solid fa-circle-plus fa-2x text-blue-600 "></i>
+                        <p>Add Certificates</p>
+                    </button>
+                {% endif %}
+
+                
+                  {% if not projects  %}
+                    <button onclick="additem('userProject')" class="flex items-center gap-[16px] border-2 p-2 rounded-xl hover:bg-gray-100 ">
+                        <i class="fa-solid fa-circle-plus fa-2x text-blue-600 "></i>
+                        <p>Add Projects</p>
+                    </button>
+                {% endif %}
+
+                    
+
+            </div>
+        
+
+
+
+            
+            {% if user.about %}
+                
+                <div class="p-4 bg-white rounded-xl border-2 w-full flex flex-col">
+
+
+                           <span class="text-xl ">
+                             About
+                           </span>
+                          <div class="w-full flex justify-end">
+
+                            <button onclick="edititems('userAbout','{{user.id}}')" class=" bg-blue-200 text-blue-600 hover:bg-blue-500 hover:text-white rounded-[4px] w-[24px] h-[24px]">
+                            <i class="fa-solid fa-pen-to-square"></i></button>
+                          </div>
+
+                      
+                             <div class="opacity-[0.7] [&>p:nth-child(2)]:hidden ">{{user.about|safe}}</div>
+
+
+
+                        </div>
+       
+
+            {% endif %}
+                
+
+
+            
+            {% if skills %}
+                 
+                    <div class="flex flex-col gap=[16px] p-4 bg-white rounded-xl border-2">
+                        <div class="w-full flex justify-between">
+                             <span class="text-xl">
+                                Skills
+                            </span>
+                           <button onclick="additem('userSkill')" class="bg-black w-[24px] h-[24px] rounded-xl">
+                            <i class="fa-solid fa-circle-plus fa-1x text-gray-200 scale-[150%] hover:text-gray-300 "></i></button>
+                        </div>
+                      
+                        <br>
+                       {% for skill in skills %}
+                   
+                            <div class="border-b-2 p-2 my-2">
+                                <div class="flex gap-[52px]">
+                        
+                                    <p class="w-[300px] h-[40px] flex justify-between ">{{skill.skill.name}} <span>Level: {{skill.level}}</span></p>
+                                    <div >
+                                        <button onclick="edititems('userSkill','{{skill.id}}')" class=" bg-blue-200 text-blue-600 hover:bg-blue-500 hover:text-white rounded-[4px] w-[24px] h-[24px]">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </button>
+                                    
+                                        <button onclick="deleteitems('userSkill','{{skill.id}}')" class="bg-red-200 text-red-600 hover:bg-red-500 hover:text-white rounded-[4px] w-[24px] h-[24px]">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="opacity-[0.7] [&>p:nth-child(2)]:hidden">
+                                    
+                                        {{skill.skill_disc|safe}}
+                                    
+                                </div> 
+
+                            </div>
+                        
+
+                       {% endfor %}
+                        
+                        </div>
+                    
+                    
+                    
+
+            {% endif %}
+                
+
+
+      
+        
+
+        <!--  education part logic   -->
+        {% if edus %}
+            
+            
+                <div class="p-4 bg-white rounded-xl border-2 flex flex-col gap-[40px]">
+                    <div class="w-full flex justify-between">
+                             <span class="text-xl">
+                                Educations
+                            </span>
+                           <button onclick="additem('userEdu')" class="bg-black w-[24px] h-[24px] rounded-xl">
+                            <i class="fa-solid fa-circle-plus fa-1x text-gray-200 scale-[150%] hover:text-gray-300 "></i></button>
+                        </div>
+                      
+         
+           
+           
+                    {% for edu in edus %}
+
+                        <div class="flex flex-col gap-[8px] border-b-2 p-2 relative" >
+                            <div class="absolute right-0 top-0">
+                                <button onclick="edititems('userEdu','{{edu.id}}')" class=" bg-blue-200 text-blue-600 hover:bg-blue-500 hover:text-white rounded-[4px] w-[24px] h-[24px]">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+
+                                <button onclick="deleteitems('userEdu','{{edu.id}}')" class="bg-red-200 text-red-600 hover:bg-red-500 hover:text-white rounded-[4px] w-[24px] h-[24px]">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </div>
+
+
+                            <div class="flex gap-[16px]">
+                                <div class="w-[100px] h-[100px] flex items-center justify-center bg-gray-100 rounded-[50%]"> 
+                                    <i class="fa-solid fa-graduation-cap fa-3x text-gray-600"></i>
+                                </div>
+
+                                <div>
+                            
+                                    <p class="text-2xl capitalize font-bold"> {{edu.degreelevel}}</p>
+                                    <p class="text-xl text-blue-800"> {{edu.SchoolName}}</p>
+                                    <p class="text-gray-600"> {{edu.start }}-{{edu.end }}</p>
+                                </div>
+                            </div>
+                            <div class="opacity-[0.7] [&>p:nth-child(2)]:hidden ">{{edu.school_desc|safe}}</div>
+                           
+                        </div>
+
+                    {% endfor %}
+            
+            
+                </div>
+        {% endif %}
+            
+
+
+
+
+
+        
+        {% if certs %}
+            
+                    <div class="p-4 bg-white rounded-xl border-2 flex flex-col gap-[40px]">
+                        
+                        <div class="w-full flex justify-between">
+                             <span class="text-xl">
+                                Certificate
+                            </span>
+                            <button onclick="additem('userCert')" class="bg-black w-[24px] h-[24px] rounded-xl">
+                            <i class="fa-solid fa-circle-plus fa-1x text-gray-200 scale-[150%] hover:text-gray-300 "></i></button>
+                        </div>
+           
+           
+                       {% for cert in certs %}
+                                
+                            <div class="flex flex-col gap-[8px] border-b-2 p-2 relative" >
+                                    <div class="absolute right-0 top-0">
+                                        <button onclick="edititems('userCert','{{cert.id}}')" class=" bg-blue-200 text-blue-600 hover:bg-blue-500 hover:text-white rounded-[4px] w-[24px] h-[24px]">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </button>
+                                        <button onclick="deleteitems('userCert','{{cert.id}}')" class="bg-red-200 text-red-600 hover:bg-red-500 hover:text-white rounded-[4px] w-[24px] h-[24px]">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+                                    </div>
+                                
+                                <div class="flex gap-[16px]">
+                                    <div class="w-[100px] h-[100px] flex items-center justify-center bg-gray-100 rounded-[50%]"> 
+                                    <i class="fa-solid fa-certificate fa-3x text-gray-600"></i>
+                                </div>
+                                    <div>
+                                        <p class="text-2xl capitalize font-bold"> {{cert.certificate_name}}</p>
+                                        <p class="text-xl text-blue-800"> {{cert.instatution}}</p>
+                                        <p class="text-gray-600"> {{cert.start }}-{{cert.end }}</p>
+                                        <a href="{{cert.certificate_link}}" class="text-blue-600 hover:underline">Visit Certificate</a>
+                                    </div>
+                                </div>
+                                <div class="opacity-[0.7] [&>p:nth-child(2)]:hidden">
+                                        {{cert.certificate_description|safe}}
+                                </div>
+                                
+                            </div>
+                       {% endfor %}
+           
+          
+
+
+
+
+
+            </div>
+
+
+
+
+        {% endif %}
+            
+
+
+        
+
+
+
+              
+        {% if exps %}
+            <div class="p-4 bg-white rounded-xl border-2 flex flex-col gap-[40px]">
+                <div class="w-full flex justify-between">
+                             <span class="text-xl">
+                                Experiance
+                            </span>
+                            <button onclick="additem('userExp')" class="bg-black w-[24px] h-[24px] rounded-xl">
+                            <i class="fa-solid fa-circle-plus fa-1x text-gray-200 scale-[150%] hover:text-gray-300 "></i></button>
+                        </div>
+         
+           
+           
+                {% for exp in exps %}
+
+                    <div class="flex flex-col gap-[8px] border-b-2 p-2 relative" >
+                        <div class="absolute right-0 top-0">
+                            <button onclick="edititems('userExp','{{exp.id}}')" class=" bg-blue-200 text-blue-600 hover:bg-blue-500 hover:text-white rounded-[4px] w-[24px] h-[24px]">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
+                            <button onclick="deleteitems('userExp','{{exp.id}}')" class="bg-red-200 text-red-600 hover:bg-red-500 hover:text-white rounded-[4px] w-[24px] h-[24px]">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </div>
+
+
+
+                            <div class="flex gap-[16px]">
+                             <div class="w-[100px] h-[100px] flex items-center justify-center bg-gray-100 rounded-[50%]"> 
+                               <i class="fa-solid fa-briefcase fa-3x text-gray-600"></i>
+                            </div>
+                            <div>
+                                <p class="text-2xl capitalize font-bold"> {{exp.title}} <span class="text-xl text-gray-800 font-normal">{{exp.employment_type}}</span></p>  
+                                <p class="text-xl capitalize">at<span class="text-xl text-gray-800 font-normal uppercase"> {{exp.company_name}}</span></p>  
+                                <p class="text-gray-600"> {{exp.start }}-{{exp.end }}</p>
+                                <p class="text-gray-600"> {{exp.location}}</p>
+                                
+                            </div>
+                        </div>
+                        <div class="opacity-[0.7] [&>p:nth-child(2)]:hidden">
+                            {{exp.exp_desc|safe}}
+                        </div>
+                    </div>
+                {% endfor %}
+           
+          
+            </div>
+
+    
+            
+        {% endif %}
+            
+
+
+
+
+
+        
+        {% if projects %}
+            <div class="p-4 bg-white rounded-xl border-2 flex flex-col gap-[40px]">
+               
+                    <div class="w-full flex justify-between">
+                             <span class="text-xl">
+                                Projects
+                            </span>
+                            <button onclick="additem('userProject')" class="bg-black w-[24px] h-[24px] rounded-xl">
+                            <i class="fa-solid fa-circle-plus fa-1x text-gray-200 scale-[150%] hover:text-gray-300 "></i></button>
+                        </div>
+         
+           
+           
+                {% for project in projects %}
+
+                    <div class="flex flex-col gap-[8px] border-b-2 p-2 relative" >
+                        <div class="absolute right-0 top-0">
+                            <button onclick="edititems('userProject','{{project.id}}')" class=" bg-blue-200 text-blue-600 hover:bg-blue-500 hover:text-white rounded-[4px] w-[24px] h-[24px]">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
+                            <button onclick="deleteitems('userProject','{{project.id}}')" class="bg-red-200 text-red-600 hover:bg-red-500 hover:text-white rounded-[4px] w-[24px] h-[24px]">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </div>
+
+
+
+                            <div class="flex gap-[16px]">
+                            <div class="w-[100px] h-[100px] flex items-center justify-center bg-gray-100 rounded-[50%]"> 
+                               <i class="fa-solid fa-diagram-project fa-3x text-gray-600"></i>
+                            </div>
+                            <div>
+                                <p class="text-2xl capitalize font-bold"> {{project.project_name}} <span class="text-xl text-gray-800 font-normal"> {{project.related_industry}}</span></p>  
+                                <p class="text-gray-600"> {{project.start }}-{{project.end }}</p>
+                                <a href="{{project.project_link}}" class="text-blue-600 hover:underline">Visit Certificate</a>
+                            </div>
+                        </div>
+                        <div class="opacity-[0.7] [&>p:nth-child(2)]:hidden">
+                            {{project.project_description|safe}}
+                        </div>
+                    </div>
+                {% endfor %}
+           
+          
+            </div>
+
+    
+            
+        {% endif %}
+            
+
+
+    
+    
+    
+    </div>
+
+
+
+
+</section>
+
+
+
+<script>
+    function deleteitems(itemsName,id){
+         window.location.replace(`/user:u/?formName=${itemsName}&deleteid=${id}`)
+    }
+      function edititems(itemsName,id){
+         window.location.replace(`/user:u/?formName=${itemsName}&editid=${id}`)
+    }
+
+
+    function closeform(){
+        window.location.replace('/user:u/')
+    }
+
+
+    function additem(itemsName){
+        console.log(itemsName)
+        
+        window.location.replace(`/user:u/?formName=${itemsName}`)
+        
+    }
+
+</script>
+
+
+{% endblock %}

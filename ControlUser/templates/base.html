@@ -1,0 +1,87 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>{% block title %}My App{% endblock %}</title>
+   
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.css"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.js"></script>
+
+</head>
+
+
+<body class="bg-gray-100 p-2 flex flex-col gap-[8px] relative  inline-block">
+
+
+    
+    <nav class="w-full h-[60px] flex items-center justify-between box-border px-4 bg-white rounded-xl border-[2px] border-gray-200">
+        <div class="font-bold text-2xl">
+            AZG.JOB
+        </div>
+
+        
+        {% if user.is_authenticated %}
+                 <div class="links flex gap-[20px] items-center [&>a]:capitalize ">
+            <a href="" class="hover:text-blue-600">new jobs</a>
+             <a href="/" class="hover:text-blue-600">explor</a>
+            <a href="/user:all" class="hover:text-blue-600">people</a>
+            <a href="/company:all/" class="hover:text-blue-600">companies</a>
+          
+        </div>
+        {% endif %}
+            
+         
+            
+            {% if user.is_authenticated %}
+                 <div class="flex items-center h-[40px] gap-[8px]">
+
+                <p class="flex flex-col items-end font-bold">
+                    <span class="m-0 p-0 text-sm font-normal">Welcome Back:</span>
+                    {{user.full_name}}
+                </p>
+                <a href="/user:u/" class="block w-[40px] h-[40px] overflow-hidden rounded-[50%] border-2" >    
+                <img class="w-full h-full object-cover object-center " src="/user:photo/?id={{user.id}}" alt="sdfsd">
+               
+            </a>
+            </div>
+            {% endif %}
+
+
+             
+            {% if not user.is_authenticated %}
+             
+               <div class="links flex gap-[20px] items-center [&>a]:capitalize ">
+            <a href="/user:login/" class="hover:text-blue-600">login</a>
+            <a href="/user:register/" class="hover:text-blue-600">register</a>
+           
+            {% endif %}
+
+         
+          
+        </div>
+                
+    </nav>
+
+  
+    {% block content %}
+    {% endblock %}
+
+
+
+    <br>
+    <br>
+    <br>
+    <footer>
+        @azg.jobs
+    </footer>
+
+
+
+
+    
+</body>
+
+</html>

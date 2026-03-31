@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block title %}company{% endblock %}
+
+{% block content %}
+
+
+
+
+{% if form %}
+    <section class="absolute w-full h-full bg-black/50 z-[200] flex  p-4 items-start justify-center gap-[40px]" style="backdrop-filter: blur(5px);">
+        <form action="#" method="post" class="w-[600px] bg-white p-3 rounded-xl flex flex-col gap-[16px] [&>div]:flex [&>div]:flex-col [&>div]:gap-[8px] [&>div>input]:h-[40px] [&>div>input]:outline-none [&>div>input]:border-b-2 [&>div>input]:border-gray-400 [&>div>input]:px-2 [&>div>label]:capitalize [&>div>label]:opacity-[0.6]" enctype="multipart/form-data">
+            {% csrf_token %}
+             {% if form.name.errors %}
+                    <div class="text-red-500">
+                {{ form.name.errors }}
+                       
+                    </div>
+                {% endif %}
+            {{form.media}}
+            {{form}}
+            <button class="bg-blue-600 hover:bg-blue-500 rounded-xl text-white p-2 capitalize"> save</button>
+        </form>
+
+        <a href="/company:get/" class="p-2 capitalize rounded-lg bg-white">close</a>
+    </section>
+{% endif %}
+    
+
+<section class="w-full min-h-[100vh] flex flex-col gap-[8px] p-12">
+
+    <!-- Basic Company content Container -->
+    <div class="basic_con_container w-full  overflow-hidden bg-white border-2 rounded-xl relative">
+        <div class="w-full flex flex-col h-[350px]">
+            <div id="coverphoto-container" class="w-full h-[250px] bg-gray-600 overflow-hidden hover:border-8 hover:border-blue-500">
+                <a href="/company:setcover/">
+                    <img src="/company:getcover/?id={{company.id}}" alt="" class="w-full h-full object-cover object-center">
+                </a>
+            </div>
+
+            <div id="profilephoto-container" class="w-[200px] h-[200px] bg-blue-300 border-8 absolute left-[80px] top-[30%] rounded-full overflow-hidden hover:border-blue-500">
+              <a href="/company:setlogo/">
+                  <img src="/company:getlogo/?id={{company.id}}" alt="" class="w-full h-full object-cover object-center">
+              </a>
+            </div>
+            
+           
+
+        </div>
+
+         <div class="px-[100px] py-[40px] flex flex-col gap-[8px]">
+            <div class="w=full flex justify-end">
+                <a href="/company:get/?FormType=EditDetails&id={{company.id}}" class="w-[30px] h-[30px] flex items-center justify-center rounded-lg bg-blue-600 text-white hover:bg-blue-500"><i class="fa-solid fa-pen-to-square"></i></a>
+            </div>
+            <h2 class="capitalize text-3xl ">{{ company.company_name }}</h2>
+            <h2 class="capitalize text-3xl font-bold">{{ company.company_name_abravetion }}</h2>
+            
+            {% if company.WEBSITE %}<a href="{{company.WEBSITE}}" class="text-blue-500 underline text-lg capitalize">visit website</a>{% endif %}
+
+
+            {% if company.Location %}<h2 class="text-lg capitalize opacity-[0.7]"><i class="fa-solid fa-location-dot"></i> {{company.Location}}</h2>{% endif %}
+             <a href="/">Visit Jobs list</a>
+            </div>
+        
+    </div>
+       
+
+    <div class="w-full  overflow-hidden bg-white border-2 rounded-xl px-[100px] py-[40px] flex flex-col gap-[8px]">
+        
+        <h1 class="capitalize text-3xl font-bold">about company</h1>
+          <div class="w=full flex justify-end">
+                <a href="/company:get/?FormType=EditSummary&id={{company.id}}" class="w-[30px] h-[30px] flex items-center justify-center rounded-lg bg-blue-600 text-white hover:bg-blue-500"><i class="fa-solid fa-pen-to-square"></i></a>
+            </div>
+        <p class="opacity-[0.7]">{{company.company_summary|safe}}</p>
+    </div>
+
+</section>
+
+
+<section class="jobs-sec">
+
+    
+            </div>
+</section>
+
+
+{% endblock %}

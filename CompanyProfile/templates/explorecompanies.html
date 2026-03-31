@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}Explore Companies{% endblock %}
+
+{% block content %}
+
+
+
+<section class="w-full min-h-[100vh] flex flex-col gap-[8px] p-12">
+
+ <div>
+      
+       
+       {% if usercompany  %}
+            <a href="/company:get/" class="p-2 bg-blue-600 capitalize text-white rounded-xl hover:bg-blue-500">visit you company</a>
+       {% endif %}
+        
+        {% if not usercompany %}
+            <a href="/company:create/" class="p-2 bg-blue-600 capitalize text-white rounded-xl hover:bg-blue-500">create a company</a>
+        {% endif %}
+            
+    </div>
+
+
+
+<div class="w-full flex justify-evenly">
+    <form action="/company:all/?s=1" method="post">
+    {% csrf_token %}
+    <input name="requestuser" type="search" class="h-[40px] w-[300px] p-2 rounded-xl border-2 outline-none" placeholder="Search Company">
+    <button class="bg-blue-600 hover:bg-blue-500 text-white rounded-xl h-[40px] w-[40px]">
+        <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
+</form>
+
+   
+    
+</div>
+<br>
+
+
+    <div class="flex flex-wrap gap-[12px] ">
+
+            {% for Company in companies  %}
+            <a href="/company:view/?id={{Company.id}}">
+
+            <div class="w-[300px] h-[200px] bg-white rounded-xl flex flex-col gap-[8px] p-3">
+
+                <div class="w-[100px] h-[100px] rounded-full bg-gray-600 overflow-hidden">
+                   <img src="/company:getlogo/?id={{Company.id}}" alt="" class="w-full h-full object-cover object-center">
+                </div>
+                <h2 class="text-xl font-bold capitalize">{{Company.company_name}}</h2>
+                <h1 class="opacity-[0.7] capitalize"><i class="fa-solid fa-location-dot"></i> {{Company.Location}}</h1>
+                
+            </div>
+            </a>
+    {% endfor %}
+
+
+    </div>
+
+        
+
+
+
+</section>
+
+
+
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}company{% endblock %}
+
+{% block content %}
+
+
+
+<section class="w-full min-h-[100vh] flex flex-col gap-[8px] p-12">
+
+    <!-- Basic Company content Container -->
+    <div class="basic_con_container w-full  overflow-hidden bg-white border-2 rounded-xl relative">
+        <div class="w-full flex flex-col h-[350px]">
+            <div id="coverphoto-container" class="w-full h-[250px] bg-gray-600 overflow-hidden">
+                <img src="/company:getcover/?id={{company.id}}" alt="" class="w-full h-full object-cover object-center">
+            </div>
+
+            <div id="profilephoto-container" class="w-[200px] h-[200px] bg-blue-300 border-8 absolute left-[80px] top-[30%] rounded-full overflow-hidden">
+                <img src="/company:getlogo/?id={{company.id}}" alt="" class="w-full h-full object-cover object-center">
+            </div>
+            
+           
+
+        </div>
+
+         <div class="px-[100px] py-[40px] flex flex-col gap-[8px]">
+            <h2 class="capitalize text-3xl ">{{ company.company_name }}</h2>
+            <h2 class="capitalize text-3xl font-bold">{{ company.company_name_abravetion }}</h2>
+            
+            {% if company.WEBSITE %}<a href="{{company.WEBSITE}}" class="text-blue-500 underline text-lg capitalize">visit website</a>{% endif %}
+
+
+            {% if company.Location %}<h2 class="text-lg capitalize opacity-[0.7]"><i class="fa-solid fa-location-dot"></i> {{company.Location}}</h2>{% endif %}
+
+            </div>
+        
+    </div>
+       
+
+    <div class="w-full  overflow-hidden bg-white border-2 rounded-xl px-[100px] py-[40px] flex flex-col gap-[8px]">
+        <h1 class="capitalize text-3xl font-bold">about company</h1>
+        <p class="opacity-[0.7]">{{company.company_summary|safe}}</p>
+    </div>
+
+</section>
+
+
+
+{% endblock %}

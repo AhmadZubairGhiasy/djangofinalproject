@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<section class="w-full h-[100vh] flex flex-col justify-center items-center ">
+    
+    
+
+
+    {% if error %}
+      
+               <h1 class="text-4xl text-red-700">System Error</h1>
+        <br>
+        <h1 class="text-3xl text-red-500 ">{{message}}!</h1>
+        
+    {% endif %}
+        
+     {% if validation %}
+      
+               <h1 class="text-4xl text-red-700">Validation Error</h1>
+        <br>
+        <h1 class="text-3xl text-red-500 ">{{message}}!</h1>
+        
+    {% endif %}
+
+     {% if success %}
+      
+               <h1 class="text-4xl text-green-700">Result: Success</h1>
+        <br>
+        <h1 class="text-3xl text-green-500 ">{{message}}!</h1>
+        
+    {% endif %}
+    {% if normal %}
+      
+               <h1 class="text-4xl">Request Result!</h1>
+        <br>
+        <h1 class="text-3xl">{{message}}!</h1>
+        
+    {% endif %}
+
+    <br>
+    <button onclick="window.history.back()" class="bg-gray-300 p-3 hover:bg-gray-200 rounded-3xl capitalize">
+        back to the page
+    </button>
+
+</section>
+
+
+{% if redirectTo %}
+    <script>
+        
+       setTimeout(() => {
+    console.log("Hello after 3 seconds");
+    window.location.replace('{{redirectTo}}')
+}, 3000);
+
+</script>
+{% endif %}
+    
+
+
+
+{% endblock %}

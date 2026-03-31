@@ -1,0 +1,389 @@
+{% extends 'base.html' %}
+
+{% block title %}User Profile{% endblock %}
+
+{% block content %}
+
+
+
+
+<section class="w-full flex items-start gap-[8px]  ">
+
+    
+
+
+    <div class="w-[400px] h-full bg-white rounded-xl p-4 flex flex-col gap-[24px] border-2">
+
+
+        <div class="w-fullflex flex-col items-center gap-[20px]  ">
+            <div class="relative mb-12">
+                <div class="object-cover">
+             <div class="w-full h-[110px] object-cover  overflow-hidden   border-gray-300 hover:border-blue-600">
+            <img class="w-full h-full object-cover object-center" src="/user:coverphoto/?id={{u.id}}" alt="">
+            </div>
+           
+        </div>
+           <div  class="absolute left-[50%] translate-x-[-50%] bottom-[-45px]">
+             <div class="w-[90px] h-[90px]  overflow-hidden rounded-[50%] border-4 border-white hover:border-blue-600">
+            <img class="w-full h-full object-cover object-center" src="/user:photo/?id={{u.id}}" alt="">
+            </div>
+           
+        </div>
+            </div>
+
+         <div class="flex flex-col items-center">
+            <h2 class="text-2xl font-bold">{{u.full_name}}</h2>
+            <h2 class="opacity-[0.7]">{{u.Phone}}</h2>
+            <h2 class="opacity-[0.7]">{{u.email}}</h2>
+         </div>
+
+        </div>
+    
+
+        <div class="[&>p>span]:opacity-[0.7] flex flex-col gap-[16px]">
+            <h3 class="text-xl font-[500] w-full flex justify-between">Details   </h3>
+
+
+            <p class="capitalize"><span>Full Name </span><br> {{u.full_name}}</p>
+            
+            
+            <p><span>Email </span><br> {{u.email}}</p>
+            
+             <p class="capitalize"><span>Phone </span><br> {{u.Phone}}
+                
+            </p>
+            
+            <p class="capitalize"><span >Working Industry </span><br> {{u.job_industry}}
+            
+              
+            </p>
+
+
+            <p class="capitalize"><span>Nationality </span><br> {{u.nationality}}
+               
+            </p>
+
+
+            <p><span>Birth Date </span><br> {{u.date_birth}}
+           
+            </p>
+
+
+            <p class="capitalize"><span>Gender </span><br> {{u.gender}}
+                 
+            </p>
+
+            <p><span>Join Date </span><br> {{u.create_At}}
+    
+            </p>
+
+
+             
+             {% if u.resume_pdf %}
+                <a href="/user:resume/?id={{u.id}}" class="bg-blue-600 rounded-xl h-[40px]  text-white capitalize flex items-center justify-center hover:bg-blue-500">
+                <span>view resume</span>
+            </a>
+             {% endif %}
+                
+            
+        </div>
+
+    
+
+   
+       
+    </div>
+
+
+
+
+        
+    <div  class="w-full h-full  flex flex-col gap-[8px] ">
+
+            
+
+         
+
+
+
+            
+            {% if u.about %}
+                
+                <div class="p-4 bg-white rounded-xl border-2 w-full flex flex-col">
+
+
+                           <span class="text-xl ">
+                             About
+                           </span>
+                          <div class="w-full flex justify-end">
+
+                          </div>
+
+                      
+                             <div class="opacity-[0.7] [&>p:nth-child(2)]:hidden ">{{u.about|safe}}</div>
+
+
+
+                        </div>
+       
+
+            {% endif %}
+                
+
+
+            
+            {% if skills %}
+                 
+                    <div class="flex flex-col gap=[16px] p-4 bg-white rounded-xl border-2">
+                        <div class="w-full flex justify-between">
+                             <span class="text-xl">
+                                Skills
+                            </span>
+                        </div>
+                      
+                        <br>
+                       {% for skill in skills %}
+                   
+                            <div class="border-b-2 p-2 my-2">
+                                <div class="flex gap-[52px]">
+                        
+                                    <p class="w-[300px] h-[40px] flex justify-between ">{{skill.skill.name}} <span>Level: {{skill.level}}</span></p>
+                                 
+                                </div>
+                                <div class="opacity-[0.7] [&>p:nth-child(2)]:hidden">
+                                    
+                                        {{skill.skill_disc|safe}}
+                                    
+                                </div> 
+
+                            </div>
+                        
+
+                       {% endfor %}
+                        
+                        </div>
+                    
+                    
+                    
+
+            {% endif %}
+                
+
+
+      
+        
+
+        <!--  education part logic   -->
+        {% if edus %}
+            
+            
+                <div class="p-4 bg-white rounded-xl border-2 flex flex-col gap-[40px]">
+                    <div class="w-full flex justify-between">
+                             <span class="text-xl">
+                                Educations
+                            </span>
+                           
+                        </div>
+                      
+         
+           
+           
+                    {% for edu in edus %}
+
+                        <div class="flex flex-col gap-[8px] border-b-2 p-2 relative" >
+                            
+
+
+                            <div class="flex gap-[16px]">
+                                <div class="w-[100px] h-[100px] flex items-center justify-center bg-gray-100 rounded-[50%]"> 
+                                    <i class="fa-solid fa-graduation-cap fa-3x text-gray-600"></i>
+                                </div>
+
+                                <div>
+                            
+                                    <p class="text-2xl capitalize font-bold"> {{edu.degreelevel}}</p>
+                                    <p class="text-xl text-blue-800"> {{edu.SchoolName}}</p>
+                                    <p class="text-gray-600"> {{edu.start }}-{{edu.end }}</p>
+                                </div>
+                            </div>
+                            <div class="opacity-[0.7] [&>p:nth-child(2)]:hidden ">{{edu.school_desc|safe}}</div>
+                           
+                        </div>
+
+                    {% endfor %}
+            
+            
+                </div>
+        {% endif %}
+            
+
+
+
+
+
+        
+        {% if certs %}
+            
+                    <div class="p-4 bg-white rounded-xl border-2 flex flex-col gap-[40px]">
+                        
+                        <div class="w-full flex justify-between">
+                             <span class="text-xl">
+                                Certificate
+                            </span>
+                            
+                        </div>
+           
+           
+                       {% for cert in certs %}
+                                
+                            <div class="flex flex-col gap-[8px] border-b-2 p-2 relative" >
+                                    
+                                
+                                <div class="flex gap-[16px]">
+                                    <div class="w-[100px] h-[100px] flex items-center justify-center bg-gray-100 rounded-[50%]"> 
+                                    <i class="fa-solid fa-certificate fa-3x text-gray-600"></i>
+                                </div>
+                                    <div>
+                                        <p class="text-2xl capitalize font-bold"> {{cert.certificate_name}}</p>
+                                        <p class="text-xl text-blue-800"> {{cert.instatution}}</p>
+                                        <p class="text-gray-600"> {{cert.start }}-{{cert.end }}</p>
+                                        <a href="{{cert.certificate_link}}" class="text-blue-600 hover:underline">Visit Certificate</a>
+                                    </div>
+                                </div>
+                                <div class="opacity-[0.7] [&>p:nth-child(2)]:hidden">
+                                        {{cert.certificate_description|safe}}
+                                </div>
+                                
+                            </div>
+                       {% endfor %}
+           
+          
+
+
+
+
+
+            </div>
+
+
+
+
+        {% endif %}
+            
+
+
+        
+
+
+
+              
+        {% if exps %}
+            <div class="p-4 bg-white rounded-xl border-2 flex flex-col gap-[40px]">
+                <div class="w-full flex justify-between">
+                             <span class="text-xl">
+                                Experiance
+                            </span>
+                            
+         
+           
+           
+                {% for exp in exps %}
+
+                    <div class="flex flex-col gap-[8px] border-b-2 p-2 relative" >
+                        
+
+
+                            <div class="flex gap-[16px]">
+                             <div class="w-[100px] h-[100px] flex items-center justify-center bg-gray-100 rounded-[50%]"> 
+                               <i class="fa-solid fa-briefcase fa-3x text-gray-600"></i>
+                            </div>
+                            <div>
+                                <p class="text-2xl capitalize font-bold"> {{exp.title}} <span class="text-xl text-gray-800 font-normal">{{exp.employment_type}}</span></p>  
+                                <p class="text-xl capitalize">at<span class="text-xl text-gray-800 font-normal uppercase"> {{exp.company_name}}</span></p>  
+                                <p class="text-gray-600"> {{exp.start }}-{{exp.end }}</p>
+                                <p class="text-gray-600"> {{exp.location}}</p>
+                                
+                            </div>
+                        </div>
+                        <div class="opacity-[0.7] [&>p:nth-child(2)]:hidden">
+                            {{exp.exp_desc|safe}}
+                        </div>
+                    </div>
+                {% endfor %}
+           
+          
+            </div>
+
+    
+            
+        {% endif %}
+            
+
+
+
+
+
+        
+        {% if projects %}
+            <div class="p-4 bg-white rounded-xl border-2 flex flex-col gap-[40px]">
+               
+                    <div class="w-full flex justify-between">
+                             <span class="text-xl">
+                                Projects
+                            </span>
+                            
+                        </div>
+         
+           
+           
+                {% for project in projects %}
+
+                    <div class="flex flex-col gap-[8px] border-b-2 p-2 relative" >
+                        
+
+
+
+                            <div class="flex gap-[16px]">
+                            <div class="w-[100px] h-[100px] flex items-center justify-center bg-gray-100 rounded-[50%]"> 
+                               <i class="fa-solid fa-diagram-project fa-3x text-gray-600"></i>
+                            </div>
+                            <div>
+                                <p class="text-2xl capitalize font-bold"> {{project.project_name}} <span class="text-xl text-gray-800 font-normal"> {{project.related_industry}}</span></p>  
+                                <p class="text-gray-600"> {{project.start }}-{{project.end }}</p>
+                                <a href="{{project.project_link}}" class="text-blue-600 hover:underline">Visit Certificate</a>
+                            </div>
+                        </div>
+                        <div class="opacity-[0.7] [&>p:nth-child(2)]:hidden">
+                            {{project.project_description|safe}}
+                        </div>
+                    </div>
+                {% endfor %}
+           
+          
+            </div>
+
+    
+            
+        {% endif %}
+            
+
+
+    
+    
+    
+    </div>
+
+
+
+
+</section>
+
+
+
+<script>
+ 
+
+</script>
+
+
+{% endblock %}
