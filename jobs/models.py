@@ -44,13 +44,22 @@ class job_application_model(models.Model):
     id = models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False)
     job = models.ForeignKey(job_model, on_delete=models.CASCADE,related_name='jobapp')
     applicant = models.ForeignKey('ControlUser.User', on_delete=models.CASCADE,related_name='applicantuser')
-    apply_date = models.DateField(auto_now=False, auto_now_add=False,default=timezone.now,editable=False)
-    cover_letter = models.TextField(blank=True)
-    resume = models.FileField(upload_to='resumes/',blank=True,null=True)
-    resume_link = models.CharField(max_length=250,blank=True,null=True)
-
+        
+    
     class Meta:
         unique_together = ('job', 'applicant')  # no duplicate application
 
     def __str__(self):
-        return f"{self.applicant.username} - {self.job.jobtitle}"
+        return f"{self.applicant.email} - {self.job.jobtitle}"
+    
+
+
+class saved_job_model(models.Model):
+    job = models.ForeignKey(job_model, on_delete=models.CASCADE,related_name='savedjob')
+    user = models.ForeignKey('ControlUser.User', on_delete=models.CASCADE,related_name='saveduser')
+
+    class Meta:
+        unique_together = ('job', 'user')  # no duplicate saved job
+
+    def __str__(self):
+        return f"{self.user.username} - {self.job.jobtitle}"

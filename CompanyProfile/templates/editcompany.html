@@ -52,14 +52,14 @@
             <div class="w=full flex justify-end">
                 <a href="/company:get/?FormType=EditDetails&id={{company.id}}" class="w-[30px] h-[30px] flex items-center justify-center rounded-lg bg-blue-600 text-white hover:bg-blue-500"><i class="fa-solid fa-pen-to-square"></i></a>
             </div>
-            <h2 class="capitalize text-3xl ">{{ company.company_name }}</h2>
-            <h2 class="capitalize text-3xl font-bold">{{ company.company_name_abravetion }}</h2>
+            <h2 class="capitalize text-3xl font-bold ">{{ company.company_name }}</h2>
+            <h2 class="capitalize text-2xl ">{{ company.company_name_abravetion }}</h2>
             
             {% if company.WEBSITE %}<a href="{{company.WEBSITE}}" class="text-blue-500 underline text-lg capitalize">visit website</a>{% endif %}
 
 
             {% if company.Location %}<h2 class="text-lg capitalize opacity-[0.7]"><i class="fa-solid fa-location-dot"></i> {{company.Location}}</h2>{% endif %}
-             <a href="/">Visit Jobs list</a>
+             <a href="/job:adminlist/">Visit Jobs list</a>
             </div>
         
     </div>

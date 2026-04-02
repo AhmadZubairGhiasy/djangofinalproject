@@ -8,12 +8,13 @@
 
 <section class="serach">
     <div class="w-full flex justify-evenly">
-    <form action="/company:all/?s=1" method="post">
+    <form action="/job:list/" method="post">
     {% csrf_token %}
     <input name="requestjob" 
     type="search" 
     class="h-[40px] w-[300px] p-2 rounded-xl border-2 outline-none" 
     placeholder="Search Job">
+    <input type="hidden" name="action" value="search">
     <button class="bg-blue-600 hover:bg-blue-500 text-white rounded-xl h-[40px] w-[40px]">
         <i class="fa-solid fa-magnifying-glass"></i>
     </button>
@@ -21,13 +22,30 @@
 
 </section>
 
-<section class="list flex gap-[16px] p-[16px] flex-wrap ">
+<section class="list flex gap-[16px] p-[16px] flex-wrap min-h-[100vh] ">
     {% for job in jobslist %}
-        <div class="jobitem w-[300px] h-[300px] bg-white border-2 rounded-xl flex flex-col items-center justify-around px-4">
+        <a href="/job:view?id={{job.id}}">
+            <div class="jobitem w-[300px] h-[200px] bg-white border-2 rounded-xl flex flex-col justify-between  p-4">
+            <div class="flex justify-between items-center">
+                 <h3 >{{job.createat}}</h3>
+                <button class="bg-gray-200 h-[32px] w-[32px] rounded hover:bg-gray-600 hover:text-white">
+                    <i class="fa-solid fa-floppy-disk"></i>
+                </button>
+            </div>
+           <div class="p-2">
             <h2 class="capitalize text-xl font-bold">{{job.jobtitle}}</h2>
-            <h3 class="uppercase">{{job.company_name}}</h3>
+            <h3 class="text-gray-600">{{job.job_address}}</h3>
+           </div>
+           <div class="flex items-center gap-[8px]">
+           <img class="w-[48px] h-[48px] rounded" src="/company:getlogo/?id={{job.company_name.id}}" alt="">
+            <div>
+                <h1 class="uppercase text-xl font-bold">{{job.company_name}}</h1>
+                <h1>{{job.company_name.company_name_abravetion}}</h1>
+            </div>
+           </div>
             
         </div>
+        </a>
     {% endfor %}
 </section>
 

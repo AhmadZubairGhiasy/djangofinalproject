@@ -1,0 +1,143 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+
+
+
+<section class="list min-h-[100vh] gap-[16px] p-16  ">
+   
+       
+            
+                <div class="w-full py-[80px] px-4 flex flex-col items-center gap-[16px]">
+                    <img class="w-[100px] h-[100px] rounded-md shadow-lg" src="/company:getlogo/?id={{job.company_name.id}}" alt="">
+        
+                <h1 class="uppercase text-4xl font-bold">{{job.jobtitle}}</h1>
+                <h1 class="text-2xl text-gray-600">{{job.company_name}} {{job.company_name.company_name_abravetion}}</h1>
+            
+                </div>
+           
+
+
+
+               <div class="flex gap-4">
+                 <div class="w-full p-4 rounded bg-white">
+
+                    <div >
+                        <h1 class="text-2xl font-bold capitalize">about {{job.company_name}}</h1>
+                        <br>
+                        <div class="opacity-70">
+                            <p >{{job.company_name.company_summary|safe}}</p>
+                        </div>
+                        
+                    
+                    </div>
+                        <br>
+                        <br>
+
+                    <div>
+                     <h1 class="text-2xl font-bold capitalize">Job Summary</h1>
+                     <br>
+                      <div class="opacity-70">
+                            <p >{{job.job_summery|safe}}</p>
+                        </div>
+                    </div>
+
+                    <br>
+                        <br>
+
+                    <div>
+                     <h1 class="text-2xl font-bold capitalize">Key Responsibilities</h1>
+                     <br>
+                      <div class="opacity-70">
+                            <p >{{job.job_descibstion|safe}}</p>
+                        </div>
+                    </div>
+
+                    <br>
+                        <br>
+
+                    <div>
+                     <h1 class="text-2xl font-bold capitalize">submition guide</h1>
+                     <br>
+
+
+                    <a href="/job:apply/?id={{job.id}}">
+                         <button class="p-2 bg-blue-600 hover:bg-blue-500 text-white rounded">Apply Now</button>
+                    </a>
+
+                   
+
+                     <p>
+                          <br>
+                        Or</p>
+                      <div class="opacity-70">
+                            <p >{{job.submision_guide|safe}}</p>
+
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="w-[350px] p-4 bg-white rounded">
+                    <p class="opacity-60">Publish Date</p>
+                    <p>{{job.createat}}</p>
+
+
+                    <br>
+
+                    <p class="opacity-60">Close Date</p>
+                    <p>{{job.closing_date}}</p>
+
+
+                    <br>
+
+                    <p class="opacity-60">Location Type</p>
+                    <p class="capitalize">{{job.job_location_type}}</p>
+
+
+                    <br>
+
+                    <p class="opacity-60">Vacancy Number</p>
+                    <p>{{job.vocancynum}}</p>
+
+
+                    <br>
+
+                    <p class="opacity-60">Vocancy Code</p>
+                    <p>{{job.vocancyCode}}</p>
+
+
+                    <br>
+
+                </div>
+
+               </div>
+
+                <!--
+                <div class="flex justify-between items-center">
+                 <h3 >{{job.createat}}</h3>
+                <button class="bg-gray-200 h-[32px] w-[32px] rounded hover:bg-gray-600 hover:text-white">
+                    <i class="fa-solid fa-floppy-disk"></i>
+                </button>
+            </div>
+           <div class="p-2">
+            <h2 class="capitalize text-xl font-bold">{{job.jobtitle}}</h2>
+            <h3 class="text-gray-600">{{job.job_address}}</h3>
+           </div>
+          
+           </div>
+                -->
+            
+        
+       
+   
+</section>
+
+
+{% endblock %}

@@ -6,14 +6,56 @@
 {% block content %}
 
 
-
-<form action="#" method="post" id="userform" class=" flex flex-col max-w-[400px] min-w-[250px] gap-[16px] m-6">
+<section class="serach">
+    <div class="w-full flex justify-evenly">
+    <form action="/job:adminlist/" method="post">
     {% csrf_token %}
-    {{ form.media }}
-    {{form.as_p}}
-    <button class="bg-blue-600 px-4 py-3 text-white rounded-xl hover:bg-blue-500 w-[150px]">create job</button>
+    <input name="requestjob" 
+    type="search" 
+    class="h-[40px] w-[300px] p-2 rounded-xl border-2 outline-none" 
+    placeholder="Search Job">
+    <input type="hidden" name="action" value="search">
+    
+    <button class="bg-blue-600 hover:bg-blue-500 text-white rounded-xl h-[40px] w-[40px]">
+        <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
 </form>
 
+<button class="bg-blue-600 hover:bg-blue-500 text-white px-4 rounded-xl">
+    <a href="/job:create/" class="text-white">Post A Job</a>
+</button>
+
+</section>
+
+<section class="list flex gap-[16px] p-[16px] flex-wrap min-h-[100vh] ">
+    {% for job in jobslist %}
+        <a href="/job:adminview?id={{job.id}}">
+            <div class="jobitem w-[300px] h-[200px] bg-white border-2 rounded-xl flex flex-col justify-between  p-4">
+                <div class="flex justify-between items-center">
+                 <h3 >{{job.createat}}</h3>
+                <a href="/job:delete/?action=delete&id={{job.id}}" class="flex items-center justify-center bg-red-500 text-white h-[32px] w-[32px] rounded hover:bg-red-600 hover:text-white">
+                   <i class="fa-solid fa-trash"></i>
+                </a>
+                </div>
+                <div class="p-2">
+                <h2 class="capitalize text-xl font-bold">{{job.jobtitle}}</h2>
+                <h3 class="text-gray-600">{{job.job_address}}</h3>
+                </div>
+                <div class="flex items-center gap-[8px]">
+                 <img class="w-[48px] h-[48px] rounded" src="/company:getlogo/?id={{job.company_name.id}}" alt="">
+                <div>
+                <h1 class="uppercase text-xl font-bold">{{job.company_name}}</h1>
+                <h1>{{job.company_name.company_name_abravetion}}</h1>
+            </div>
+            </div>
+            
+            </div>
+        </a>
+    {% endfor %}
+</section>
 
 
 {% endblock %}
+
+
+

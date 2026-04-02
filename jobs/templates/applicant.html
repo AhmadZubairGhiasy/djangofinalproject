@@ -1,0 +1,60 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+
+<section class="serach">
+    <div class="w-full flex justify-evenly">
+    <form action="/job:applicants/?action=search&id={{job.id}}" method="post">
+    {% csrf_token %}
+    <input name="requestapplicant" 
+    type="search" 
+    class="h-[40px] w-[300px] p-2 rounded-xl border-2 outline-none" 
+    placeholder="Search Applicant">
+    <button class="bg-blue-600 hover:bg-blue-500 text-white rounded-xl h-[40px] w-[40px]">
+        <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
+</form>
+
+
+
+</section>
+
+
+<section class="p-4">
+    <h1 class="text-2xl capitalize">
+        applicant for
+    </h1>
+    <h1 class="text-3xl font-bold capitalize">
+         {{job.jobtitle}} at {{job.company_name}}
+    </h1>
+</section>
+
+<section class="list flex items-start justify-start flex-warp gap-[16px] p-[16px] flex-wrap min-h-[100vh] ">
+  
+  {% for app in applicants %}
+    <a href="/user:user/?id={{app.applicant.id}}"">
+
+        <div class="w-[350px]  bg-white p-4 rounded border-gray-200 border-2 flex flex-col items-center gap-[8px]">
+           <div class="w-[90px] h-[90px]  overflow-hidden rounded-[50%] border-4 border-white">
+                <img class="w-full h-full object-cover object-center" src="/user:photo/?id={{app.applicant.id}}" alt="">
+           </div>
+           
+           
+            <h1 class="text-xl font-bold capitalize">{{app.applicant.full_name}}</h1>
+            <h1>{{app.applicant.email}}</h1>
+    </div>
+
+    </a>
+  {% endfor %}
+    
+</section>
+
+
+{% endblock %}
+
+
+

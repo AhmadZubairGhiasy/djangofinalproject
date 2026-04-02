@@ -18,11 +18,12 @@ from django.contrib import admin
 from django.urls import path,include
 
 from . import views
+from jobs.views import list_job
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('user:',include('ControlUser.urls')),
     path('job:',include('jobs.urls')),
     path('company:',include('CompanyProfile.urls')),
-    path('',views.home),
+    path('',list_job),
 ]

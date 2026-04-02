@@ -26,3 +26,55 @@ class jobCreationForm(forms.ModelForm):
         }
 
   
+
+
+
+class jobeditform(forms.ModelForm):
+
+    # this clase is inherated should be the same name and it declear the model and field to form
+    class Meta:
+        model = model
+       
+        fields = (
+            "jobtitle",
+            "vocancynum",
+            "vocancyCode",
+            "closing_date",
+            "category",
+            "job_location_type",
+            "job_address",
+            )
+        widgets = {
+            "closing_date": forms.DateInput(attrs={'type': 'date'}),
+        }
+
+  
+class editsummeryform(forms.ModelForm):
+
+    # this clase is inherated should be the same name and it declear the model and field to form
+    class Meta:
+        model = model
+       
+        fields = ("job_summery",)
+            
+       
+  
+class editdesciform(forms.ModelForm):
+
+    # this clase is inherated should be the same name and it declear the model and field to form
+    class Meta:
+        model = model
+       
+        fields = ("job_descibstion",)
+      
+
+class editsumbmisionform(forms.ModelForm):
+
+    # this clase is inherated should be the same name and it declear the model and field to form
+    class Meta:
+        model = model
+       
+        fields = ("submision_guide",)
+     
+
+  
