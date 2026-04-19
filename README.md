@@ -10,6 +10,6 @@ it's all feature are implemented with django, html , css and some js
 ### `please support me so i can provide more code projects`
 
 
-##### Thanks Alot
+# Thanks a lot
 
 
